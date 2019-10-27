@@ -28,3 +28,6 @@ def inversion(public_key, PHI):
 def eulerInversion(public_key, PHI):
     private_key = (public_key ** (PHI - 2))%PHI
     return private_key
+
+def extendedEuclidanAlgorithm(public_key, PHI):
+    return 0
