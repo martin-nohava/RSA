@@ -29,5 +29,11 @@ def eulerInversion(public_key, PHI):
     private_key = (public_key ** (PHI - 2))%PHI
     return private_key
 
+def gcd(x, y):
+    while y != 0:
+        (x, y) = (y, x % y)
+    return x
+
 def extendedEuclidanAlgorithm(public_key, PHI):
+    
     return 0
