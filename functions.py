@@ -40,8 +40,8 @@ def eulerInversion(public_key, PHI):
     return private_key
 
 def extendedEuclidanAlgorithm(public_key, PHI):
-	if public_key == 0:
-		return (PHI, 0, 1)
+	if PHI == 0:
+		return "Error: Public key empty"
 	else:
-		x, y = extendedEuclidanAlgorithm(PHI % public_key, public_key)
-		return (y - (PHI//public_key) * x)
+		x, y = extendedEuclidanAlgorithm(public_key % PHI, PHI)
+		return (y - (public_key//PHI) * x)
