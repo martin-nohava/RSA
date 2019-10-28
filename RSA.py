@@ -1,5 +1,7 @@
 from functions import isPrime, factorization, inversion
 
+print("RSA - public key penetration")
+
 #vkládané parametry
 public_key = int(input("Enter public key: "))
 modulo = int(input("Enter modulo: "))
