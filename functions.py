@@ -14,16 +14,6 @@ def factorization(x):
                     return factors
     return 0
 
-def algorithmSwitch(public_key, PHI):
-    x = public_key
-    y = PHI
-    while y != 0:
-        (x, y) = (y, x % y)
-    if x == 1:
-        return extendedEuclidanAlgorithm(public_key, PHI)
-    else:
-        return inversion(public_key, PHI)
-
 def inversion(public_key, PHI):
     private_key = 1
     if isPrime(PHI) == True:
@@ -38,10 +28,3 @@ def inversion(public_key, PHI):
 def eulerInversion(public_key, PHI):
     private_key = (public_key ** (PHI - 2))%PHI
     return private_key
-
-def extendedEuclidanAlgorithm(public_key, PHI):
-	if PHI == 0:
-		return "Error: Public key empty"
-	else:
-		x, y = extendedEuclidanAlgorithm(public_key % PHI, PHI)
-		return (y - (public_key//PHI) * x)
