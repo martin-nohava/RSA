@@ -1,3 +1,5 @@
+import time
+
 def isPrime(x):
     for fraction in range(2,x):
         if x%fraction == 0:
@@ -5,13 +7,15 @@ def isPrime(x):
     return True      
 
 def factorization(x):
+    start_time = time.time()
     factors = []
     for factor in range(3,x,2):
         if x%factor == 0:
             factors.append(factor)
             if len(factors) == 2:
                 if factors[0] * factors[1] == x:
-                    return factors
+                    end_time = time.time()
+                    return factors, end_time - start_time
     return 0
 
 def inversion(public_key, PHI):

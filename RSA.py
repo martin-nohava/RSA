@@ -1,3 +1,4 @@
+import time
 from yaspin import yaspin
 from prettytable import PrettyTable
 from functions import isPrime, factorization, inversion, extendedEuclidianAlgirithmInversion, signCheck
@@ -20,8 +21,9 @@ print("\n")
 
 #zjistime r, s
 with yaspin(text="Finding primes...", color="yellow") as spinner:
-    factors = factorization(modulo)
+    factors, factorization_time = factorization(modulo)
     spinner.ok("✔ \033[0;32m[Done]\033[0;0m")
+    print("\033[1;30m  [" + str(factorization_time) + "]  Time for execution\033[0;0m")
 
 #zjistime PHI
 PHI = (factors[0]-1) * (factors[1]-1)
@@ -33,8 +35,12 @@ with yaspin(text="Finding private key...", color="yellow") as spinner:
     
 #zjistim private_key w/ euclid
 with yaspin(text="Finding private key...", color="yellow") as spinner:
+    start_time = time.time()
     not_inversion, private_key = extendedEuclidianAlgirithmInversion(PHI, public_key)
+    end_time = time.time()
+    inversion_time = end_time - start_time
     spinner.ok("✔ \033[0;32m[Done]\033[0;0m")
+    print("\033[1;30m  [" + str(inversion_time) + "]  Time for execution\033[0;0m")
 
 #oprava znamenka
 private_key = signCheck(private_key, public_key, PHI)    
