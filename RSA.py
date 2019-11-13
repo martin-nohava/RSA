@@ -17,7 +17,10 @@ PHI = (factors[0]-1) * (factors[1]-1)
 print("Private key value is: " + str(inversion(public_key, PHI)))
 
 #debug euclid
-gcd, x, y = extendedEuclidianAlgirithmInversion(30, 50)
-print(gcd, x, y)
-
+not_inversion, private_key = extendedEuclidianAlgirithmInversion(PHI, public_key)
+if (private_key*public_key)%PHI == 1:
+    print("Private key value is: " + str(private_key))
+else:
+    print("Private key value is: " + str((private_key*(-1))))
+    
 input("Press any key to exit...")
