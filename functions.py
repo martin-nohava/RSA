@@ -31,7 +31,6 @@ def eulerInversion(public_key, PHI):
     private_key = (public_key ** (PHI - 2))%PHI
     return private_key
 
-#Python program for Extended Euclidean algorithm
 def extendedEuclidianAlgirithmInversion(PHI, public_key):
 	if PHI == 0:
 		return (0, 1)
