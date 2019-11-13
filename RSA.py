@@ -1,4 +1,4 @@
-from functions import isPrime, factorization, inversion
+from functions import isPrime, factorization, inversion, extendedEuclidianAlgirithmInversion
 
 print("RSA - public key penetration")
 
@@ -15,5 +15,9 @@ PHI = (factors[0]-1) * (factors[1]-1)
 
 #zjistim private_key
 print("Private key value is: " + str(inversion(public_key, PHI)))
+
+#debug euclid
+gcd, x, y = extendedEuclidianAlgirithmInversion(30, 50)
+print(gcd, x, y)
 
 input("Press any key to exit...")
