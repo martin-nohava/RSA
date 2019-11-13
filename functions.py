@@ -7,7 +7,6 @@ def isPrime(x):
 def factorization(x):
     factors = []
     for factor in range(3,x,2):
-        print("Faktorizace")
         if x%factor == 0:
             factors.append(factor)
             if len(factors) == 2:
@@ -24,7 +23,6 @@ def inversion(public_key, PHI):
             if (public_key * private_key)%PHI == 1:
                 return private_key
             else:
-                print("Inverze")
                 private_key += 1
 
 def eulerInversion(public_key, PHI):
@@ -37,3 +35,9 @@ def extendedEuclidianAlgirithmInversion(PHI, public_key):
 	else:
 		x, y = extendedEuclidianAlgirithmInversion(public_key % PHI, PHI)
 		return (y - (public_key//PHI) * x, x)
+
+def signCheck(private_key, public_key, PHI):
+    if (private_key*public_key)%PHI == 1:
+        return private_key
+    else:
+        return (private_key*(-1))
