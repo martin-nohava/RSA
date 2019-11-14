@@ -1,10 +1,24 @@
 import time
+import threading
 
 def isPrime(x):
     for fraction in range(2,x):
         if x%fraction == 0:
             return False
     return True      
+
+def threaded_factorization(x):
+# rozložení čísla do dvou vláken
+    if len(str(x)) > 10:
+        first_part = str(x)[len(str(x))-10:] #posledních 10 cislic cisla x
+        rest_of_x = str(x)[:len(str(x))-10] + ("0" * 10) #zbytek cisla
+        
+        try:
+            thread.start_new_thread(factorization(int(first_part)))
+            thread.start_new_thread(factorization(int(rest_of_x)))
+        except:
+            print ("Error: unable to start threaded factorization!")
+
 
 def factorization(x):
     start_time = time.time()
@@ -45,3 +59,6 @@ def signCheck(private_key, public_key, PHI):
         return private_key
     else:
         return (private_key*(-1))
+
+""" def split(string): 
+    return [char for char in string] """
