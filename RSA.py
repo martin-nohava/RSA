@@ -1,7 +1,7 @@
 import time
 from yaspin import yaspin
 from prettytable import PrettyTable
-from functions import isPrime, factorization, inversion, extendedEuclidianAlgirithmInversion, signCheck
+from functions import isPrime, factorization, inversion, extendedEuclidianAlgirithmInversion, signCheck, primeNumbersPseudogenerator, gen_primes
 
 print("""
    ____  ____    _    
@@ -12,6 +12,8 @@ print("""
 --public key cracking--                    
                      """)
 
+print(*gen_primes(100))
+
 #vkládané parametry
 print("---enter parametrs---")
 public_key = int(input("Enter public key: "))
@@ -19,9 +21,15 @@ modulo = int(input("Enter modulo: "))
 input("-press enter to begin-")
 print("\n")
 
+#generujeme kandidáty na prvocisla
+with yaspin(text="Generating prime candidates...", color="yellow") as spinner:
+    candidates, time_g = primeNumbersPseudogenerator(modulo)
+    spinner.ok("✔ \033[0;32m[Done]\033[0;0m")
+    print("\033[1;30m  [" + str(time_g) + "]  Time for execution\033[0;0m")
+
 #zjistime r, s
 with yaspin(text="Finding primes...", color="yellow") as spinner:
-    factors, factorization_time = factorization(modulo)
+    factors, factorization_time = factorization(modulo, candidates)
     spinner.ok("✔ \033[0;32m[Done]\033[0;0m")
     print("\033[1;30m  [" + str(factorization_time) + "]  Time for execution\033[0;0m")
 
