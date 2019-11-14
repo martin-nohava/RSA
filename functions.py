@@ -7,18 +7,42 @@ def isPrime(x):
             return False
     return True      
 
+class default_thread (threading.Thread):
+    def __init__(self, threadID, name, modulo):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.modulo = modulo
+    def run(self):
+        print ("Starting " + self.name)
+        factorization(self.modulo)
+        print ("Exiting " + self.name)
+
 def threaded_factorization(x):
 # rozložení čísla do dvou vláken
     if len(str(x)) > 10:
         first_part = str(x)[len(str(x))-10:] #posledních 10 cislic cisla x
         rest_of_x = str(x)[:len(str(x))-10] + ("0" * 10) #zbytek cisla
-        
+                
         try:
-            thread.start_new_thread(factorization(int(first_part)))
-            thread.start_new_thread(factorization(int(rest_of_x)))
+            """ factors1, factorization_time1 = my_thread1 = thread.start_new_thread(factorization, (int(first_part)))
+            factors2, factorization_time2 = thread.start_new_thread(factorization, (int(rest_of_x)))
+ """
+            thread1 = default_thread(1, "Thread-1", int(first_part))
+            thread2 = default_thread(2, "Thread-2", int(rest_of_x))
+            thread1.run()
+            thread2.run()
+
+            if len(factors1) == 2:
+                return factors1, factorization_time1
+            else:
+                return factors2, factorization_time2
         except:
             print ("Error: unable to start threaded factorization!")
+            input()
 
+    else:
+        factorization(x)
 
 def factorization(x):
     start_time = time.time()
@@ -26,6 +50,7 @@ def factorization(x):
     for factor in range(3,x,2):
         if x%factor == 0:
             factors.append(factor)
+            factors.append(x/factor)
             if len(factors) == 2:
                 if factors[0] * factors[1] == x:
                     end_time = time.time()
