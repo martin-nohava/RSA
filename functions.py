@@ -12,6 +12,7 @@ def factorization(x):
     for factor in range(3,x,2):
         if x%factor == 0:
             factors.append(factor)
+            factors.append(x/factors[0])
             if len(factors) == 2:
                 if factors[0] * factors[1] == x:
                     end_time = time.time()
