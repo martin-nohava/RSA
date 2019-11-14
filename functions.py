@@ -12,7 +12,7 @@ def factorization(x):
     for factor in range(3,x,2):
         if x%factor == 0:
             factors.append(factor)
-            factors.append(x/factors[0])
+            factors.append(int(x/factors[0]))
             if len(factors) == 2:
                 if factors[0] * factors[1] == x:
                     end_time = time.time()
@@ -43,6 +43,11 @@ def extendedEuclidianAlgirithmInversion(PHI, public_key):
 
 def signCheck(private_key, public_key, PHI):
     if (private_key*public_key)%PHI == 1:
+        if private_key < 0:
+            return private_key%PHI
         return private_key
     else:
-        return (private_key*(-1))
+        private_key *= (-1)
+        if private_key < 0:
+            return private_key%PHI
+        return (private_key)
