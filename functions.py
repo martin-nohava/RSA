@@ -6,9 +6,9 @@ def isPrime(x):
             return False
     return True      
 
-def gen_primes(modulo):
+def gen_primes(start, end):
     primes = set()
-    for n in range(2, modulo):
+    for n in range(start, end):
         if all(n % p > 0 for p in primes):
             primes.add(n)
             yield n
@@ -16,7 +16,18 @@ def gen_primes(modulo):
 def factorization(modulo):
     start_time = time.time()
     factors = []
-    for next_prime in gen_primes(modulo):
+    # first trying to search for prime in midlle bit of modulo (asuming that primes of modulo are approximately similar in size)
+    bit_size = len(str(bin(modulo).replace("0b", ""))) #size of modulo in bit
+    if bit_size%2 != 0:
+        bit_size += 1
+    start = 2 ** ((bit_size/2)-1)
+    end = 2 ** (bit_size/2)
+    if start%2 == 0:
+        start -= 1
+    start = int(start)
+    end = int(end)
+    #RANGE END
+    for next_prime in gen_primes(start, end):
         if modulo%next_prime == 0:
             factors.append(next_prime)
             factors.append(int(modulo/factors[0]))
