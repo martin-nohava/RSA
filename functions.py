@@ -6,18 +6,25 @@ def isPrime(x):
             return False
     return True      
 
-def factorization(x):
+def gen_primes(modulo):
+    primes = set()
+    for n in range(2, modulo):
+        if all(n % p > 0 for p in primes):
+            primes.add(n)
+            yield n
+
+def factorization(modulo):
     start_time = time.time()
     factors = []
-    for factor in range(3,x,2):
-        if x%factor == 0:
-            factors.append(factor)
-            factors.append(int(x/factors[0]))
+    for next_prime in gen_primes(modulo):
+        if modulo%next_prime == 0:
+            factors.append(next_prime)
+            factors.append(int(modulo/factors[0]))
             if len(factors) == 2:
-                if factors[0] * factors[1] == x:
+                if factors[0] * factors[1] == modulo:
                     end_time = time.time()
                     return factors, end_time - start_time
-    return 0
+    return print("Error: factoization of modulo failed!")
 
 def inversion(public_key, PHI):
     private_key = 1
