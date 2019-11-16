@@ -1,7 +1,7 @@
 import time
 from yaspin import yaspin
 from prettytable import PrettyTable
-from functions import isPrime, factorization, inversion, extendedEuclidianAlgirithmInversion, signCheck
+from functions import isPrime, startMultiprocessing, inversion, extendedEuclidianAlgirithmInversion, signCheck
 
 print("""
    ____  ____    _    
@@ -21,7 +21,7 @@ print("\n")
 
 #zjistime r, s
 with yaspin(text="Finding primes...", color="yellow") as spinner:
-    factors, factorization_time = factorization(modulo)
+    factors, factorization_time = startMultiprocessing(modulo)
     spinner.ok("✔ \033[0;32m[Done]\033[0;0m")
     print("\033[1;30m  [" + str(factorization_time) + "]  Time for execution\033[0;0m")
 
