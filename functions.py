@@ -8,17 +8,10 @@ def isPrime(x):
     return True      
 
 
-def factorization(x):
-    start_time = time.time()
-    factors = []
-    for factor in range(3, x, 2):
-        if x%factor == 0:
-            factors.append(factor)
-            factors.append(int(x/factors[0]))
-            if len(factors) == 2:
-                if factors[0] * factors[1] == x:
-                    end_time = time.time()
-                    return factors, end_time - start_time
+def factorization(modulo):
+    for factor in range(3, modulo, 2):
+        if modulo % factor == 0:
+            return factor, int(modulo/factor)
     return 0
 
 

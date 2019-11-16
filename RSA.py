@@ -21,9 +21,13 @@ print("\n")
 
 #zjistime r, s
 with yaspin(text="Finding primes...", color="yellow") as spinner:
-    factors, factorization_time = factorization(modulo)
+    start_time = time.time()
+
+    factors = factorization(modulo)
+
+    end_time = time.time()
     spinner.ok("✔ \033[0;32m[Done]\033[0;0m")
-    print("\033[1;30m  [" + str(factorization_time) + "]  Time for execution\033[0;0m")
+    print("\033[1;30m  [" + str(end_time - start_time) + "]  Time for execution\033[0;0m")
 
 #zjistime PHI
 PHI = (factors[0]-1) * (factors[1]-1)
