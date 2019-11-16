@@ -12,7 +12,7 @@ def factorization(modulo):
     for factor in range(3, modulo, 2):
         if modulo % factor == 0:
             return factor, int(modulo/factor)
-    return 0
+    raise Exception("The modulo {} isn't created by two factors!!!".format(modulo))
 
 
 def inversion(public_key, PHI):
