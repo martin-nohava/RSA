@@ -39,15 +39,7 @@ def factorization(modulo):
                 if factors[0] * factors[1] == modulo:
                     end_time = time.time()
                     return factors, end_time - start_time
-
-    """ for next_prime in gen_primes(start, end):
-        if modulo%next_prime == 0:
-            factors.append(next_prime)
-            factors.append(int(modulo/factors[0]))
-            if len(factors) == 2:
-                if factors[0] * factors[1] == modulo:
-                    end_time = time.time()
-                    return factors, end_time - start_time """
+                    
     # if first for failed to find solution we use bruteforce, but only on untested parts of range        
     # part no. 1      
     for factor in range(3,(start+1),2):
