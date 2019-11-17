@@ -6,18 +6,64 @@ def isPrime(x):
             return False
     return True      
 
-def factorization(x):
+def gen_primes(start, end):
+    primes = set()
+    for n in range(start, end):
+        if all(n % p > 0 for p in primes):
+            primes.add(n)
+            yield n
+
+def factorization(modulo):
     start_time = time.time()
     factors = []
-    for factor in range(3,x,2):
-        if x%factor == 0:
+    # first trying to search for correct prime in midlle bit of modulo (asuming that primes of modulo are approximately similar in size)
+    bit_size = len(str(bin(modulo).replace("0b", ""))) #size of modulo in bit
+    if bit_size%2 != 0:
+        bit_size += 1
+    start = 2 ** ((bit_size/2)-1)
+    end = 2 ** (bit_size/2)
+    if start%2 == 0:
+        start -= 1
+    start = int(start)
+    end = int(end)
+    #RANGE END
+
+    if start%2 == 0:
+        start -= 1
+
+    for factor in range(start, end,2):
+        if modulo%factor == 0:
             factors.append(factor)
-            factors.append(int(x/factors[0]))
+            factors.append(int(modulo/factors[0]))
             if len(factors) == 2:
-                if factors[0] * factors[1] == x:
+                if factors[0] * factors[1] == modulo:
                     end_time = time.time()
                     return factors, end_time - start_time
-    return 0
+                    
+    # if first for failed to find solution we use bruteforce, but only on untested parts of range        
+    # part no. 1      
+    for factor in range(3,(start+1),2):
+        if modulo%factor == 0:
+            factors.append(factor)
+            factors.append(int(modulo/factors[0]))
+            if len(factors) == 2:
+                if factors[0] * factors[1] == modulo:
+                    end_time = time.time()
+                    return factors, end_time - start_time    
+    # lichost
+    if end%2 == 0:
+        end -= 1
+    # Part no. 2
+    for factor in range(end,modulo,2):
+        if modulo%factor == 0:
+            factors.append(factor)
+            factors.append(int(modulo/factors[0]))
+            if len(factors) == 2:
+                if factors[0] * factors[1] == modulo:
+                    end_time = time.time()
+                    return factors, end_time - start_time
+
+    return print("Error: factoization of modulo failed!")
 
 def inversion(public_key, PHI):
     private_key = 1

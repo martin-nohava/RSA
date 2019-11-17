@@ -27,11 +27,6 @@ with yaspin(text="Finding primes...", color="yellow") as spinner:
 
 #zjistime PHI
 PHI = (factors[0]-1) * (factors[1]-1)
-
-""" #zjistim private_key
-with yaspin(text="Finding private key...", color="yellow") as spinner:
-    private_key = inversion(public_key, PHI)
-    spinner.ok("✔ \033[0;32m[Done]\033[0;0m") """
     
 #zjistim private_key w/ euclid
 with yaspin(text="Finding private key...", color="yellow") as spinner:
