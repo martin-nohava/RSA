@@ -22,7 +22,7 @@ Here is what our program can do (so far 😉)
  - Prime number list generation (but veeeery slow)
  - Check if number is prime number (even slower)
 
-## What we are working on
+## What are we working on
 
 **Multiprocess factorization**
 We are trying to achieve more optimal usage of computing power with using all cores of processor we are executing our tests on.
