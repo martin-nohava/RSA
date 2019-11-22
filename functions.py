@@ -33,15 +33,15 @@ def factorization_basic(modulo):
             return factors, end_time - start_time
     raise Exception("The modulo {} isn't created by two factors!".format(modulo))
 # Function for multiprocess factorization
-def factorization(modulo, start, end, results):
+def factorization_core(modulo, start, end, results):
         for factor in range(start, end, 2):
             if modulo % factor == 0:
-                print("factor WAS found in range of [{},{}]".format(start, end))
+                #print("factor WAS found in range of [{},{}]".format(start, end))
                 results[0] = factor
                 results[1] = int(modulo / factor)
                 return 1
 
-        print("factor was NOT found in range of [{},{}]".format(start, end))
+        #print("factor was NOT found in range of [{},{}]".format(start, end))
         return 0
 
 def factorization_multi(modulo, mod_size):
@@ -64,30 +64,25 @@ def factorization_multi(modulo, mod_size):
     start_p1 = 3
     end_p1 = int(start)
     start_p2 = int(start)
-    end_p2 = int(end)
-    start_p3 = int(end)
-    end_p3 = modulo
+    end_p2 = (int(end) + 2) # +1 because of range() and another +1 because if end%2 == 0:
      
 
     if __name__ == "functions":
         results = multiprocessing.Array('i', 2)          # Make shared memory
-        p1 = multiprocessing.Process(target=factorization, args=[modulo, start_p1, end_p1, results])
-        p2 = multiprocessing.Process(target=factorization, args=[modulo, start_p2, end_p2, results])
-        p3 = multiprocessing.Process(target=factorization, args=[modulo, start_p3, end_p3, results])
+        p1 = multiprocessing.Process(target=factorization_core, args=[modulo, start_p1, end_p1, results])
+        p2 = multiprocessing.Process(target=factorization_core, args=[modulo, start_p2, end_p2, results])
         # Starting processes 
         p1.start()
         p2.start()
-        p3.start()
-        # Waiting for both results
-        while results[1] == 0:
-            time.sleep(1)
+        # Catching main thread and waiting for both results
+        while True:
+            if results[1] != 0:
+                break
         # Terminating any left processes 
         if p1.is_alive():
             p1.terminate()
         if p2.is_alive():
             p2.terminate()
-        if p3.is_alive():
-            p3.terminate()
         # Returning results
         end_time = time.time()
         return results, end_time - start_time
