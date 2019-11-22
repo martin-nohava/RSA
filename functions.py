@@ -1,5 +1,12 @@
 import time, multiprocessing, os
 
+BLUE   = '\33[92m'
+YELLOW = '\033[;33m'
+GREEN  = '\033[0;32m'
+GRAY   = '\033[1;30m'
+RED    = '\033[91m'
+END    = '\033[0;0m'
+
 # Function for testing prime value
 def isPrime(x):
     for fraction in range(2,x):
@@ -34,7 +41,7 @@ def factorization_basic(modulo):
             factors.append(int(modulo/factor))
             end_time = time.time()
             return factors, end_time - start_time
-    print("\n\nFatal Error: Modulo is not created by two prime factors!\n")
+    print(RED + "\n\nFatal Error: Modulo is not created by two prime factors!\n" + END)
     os._exit(0)
 
 # Function compatible with multiprocess factorization
