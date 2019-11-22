@@ -25,8 +25,11 @@ Here is what our program can do (so far 😉)
 ## What are we working on
 
 **Multiprocess factorization**
+
 We are trying to achieve more optimal usage of computing power with using all cores of processor we are executing our tests on.
+
 **Exeptions**
+
 Try to take care of all exceptions and error states, program can get in. 
 
 ## Contributions
