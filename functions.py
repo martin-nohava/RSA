@@ -69,20 +69,22 @@ def factorization_multi(modulo, mod_size):
 
     if __name__ == "functions":
         results = multiprocessing.Array('i', 2)          # Make shared memory
-        p1 = multiprocessing.Process(target=factorization_core, args=[modulo, start_p1, end_p1, results])
-        p2 = multiprocessing.Process(target=factorization_core, args=[modulo, start_p2, end_p2, results])
-        # Starting processes 
-        p1.start()
-        p2.start()
+
+        for count in range(1, 3):
+            if count == 1:
+                process = multiprocessing.Process(target=factorization_core, args=[modulo, start_p1, end_p1, results])
+                
+            if count == 2:
+                process = multiprocessing.Process(target=factorization_core, args=[modulo, start_p2, end_p2, results])  
+        
+        process.start()
         # Catching main thread and waiting for both results
         while True:
             if results[1] != 0:
                 break
         # Terminating any left processes 
-        if p1.is_alive():
-            p1.terminate()
-        if p2.is_alive():
-            p2.terminate()
+        if process.is_alive():
+            process.terminate()
         # Returning results
         end_time = time.time()
         return results, end_time - start_time
