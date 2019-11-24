@@ -82,25 +82,33 @@ def factorization_multi(modulo, mod_size):
         # Loop for initiating both processes with diferent parameters
         for count in range(1, 3):
             if count == 1:
-                process = multiprocessing.Process(target=factorization_core, args=[modulo, start_p1, end_p1, results])
+                process_p1 = multiprocessing.Process(target=factorization_core, args=[modulo, start_p1, end_p1, results])
                 
             if count == 2:
-                process = multiprocessing.Process(target=factorization_core, args=[modulo, start_p2, end_p2, results])  
+                process_p2 = multiprocessing.Process(target=factorization_core, args=[modulo, start_p2, end_p2, results])  
         
         # Starting both processes 
-        process.start()
+        process_p1.start()
+        process_p2.start()
 
         # Catching main thread and waiting for both results
         while True:
             if results[1] != 0:    ################### Warning! possible infinity loop if results not found #################
                 break
+            if process_p1.is_alive() == False and process_p2.is_alive() == False:
+                print(RED + "\n\nFatal Error: Modulo is not created by two prime factors!\n" + END)
+                os._exit(0)
 
         # Terminating any left processes 
-        if process.is_alive():
-            process.terminate()
+        if process_p1.is_alive():
+            process_p1.terminate()
+        if process_p2.is_alive():
+            process_p2.terminate()
 
         # Returning results
         end_time = time.time()
+        print(results[0])
+        print(results[1])
         return results, end_time - start_time
 
 # Function for finding inversion in modulo _OLD_
@@ -144,7 +152,6 @@ def signCheck(private_key, public_key, PHI):
 def numCheck(modulo, public_key):
 
     if len(modulo) == 0 or len(public_key) == 0:
-        print(len(modulo))
         return False
 
     numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
