@@ -45,12 +45,16 @@ def factorization_basic(modulo):
     os._exit(0)
 
 # Function compatible with multiprocess factorization
-def factorization_core(modulo, start, end, results):
+def factorization_core(modulo, start, end, results, processIsNotRunning):
         for factor in range(start, end, 2):
             if modulo % factor == 0:
                 results[0] = factor
                 results[1] = int(modulo / factor)
                 return 1
+        if processIsNotRunning[0] == 1:
+            processIsNotRunning[1] = 1
+        else:
+            processIsNotRunning[0] = 1
         return 0
 
 # Function for preparing multiprocess factorization
@@ -78,37 +82,33 @@ def factorization_multi(modulo, mod_size):
 
     if __name__ == "functions":
         results = multiprocessing.Array('i', 2) # Make shared memory
+        processIsNotRunning = multiprocessing.Array('i', 2) # Shared status of each process 
 
         # Loop for initiating both processes with diferent parameters
         for count in range(1, 3):
             if count == 1:
-                process_p1 = multiprocessing.Process(target=factorization_core, args=[modulo, start_p1, end_p1, results])
+                process = multiprocessing.Process(target=factorization_core, args=[modulo, start_p1, end_p1, results, processIsNotRunning])
                 
             if count == 2:
-                process_p2 = multiprocessing.Process(target=factorization_core, args=[modulo, start_p2, end_p2, results])  
+                process = multiprocessing.Process(target=factorization_core, args=[modulo, start_p2, end_p2, results, processIsNotRunning])  
         
         # Starting both processes 
-        process_p1.start()
-        process_p2.start()
-
+        process.start()
+        
         # Catching main thread and waiting for both results
         while True:
-            if results[1] != 0:    ################### Warning! possible infinity loop if results not found #################
+            if results[1] != 0:  
                 break
-            if process_p1.is_alive() == False and process_p2.is_alive() == False:
-                print(RED + "\n\nFatal Error: Modulo is not created by two prime factors!\n" + END)
+            if processIsNotRunning[0] == 1 and processIsNotRunning[1] == 1:
+                print(RED + "\n\nFatal Error: Modulo is not created by two prime factors!**\n" + END)
                 os._exit(0)
 
         # Terminating any left processes 
-        if process_p1.is_alive():
-            process_p1.terminate()
-        if process_p2.is_alive():
-            process_p2.terminate()
-
+        if process.is_alive():
+            process.terminate()
+        
         # Returning results
         end_time = time.time()
-        print(results[0])
-        print(results[1])
         return results, end_time - start_time
 
 # Function for finding inversion in modulo _OLD_
